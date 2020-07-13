@@ -35,8 +35,12 @@ TodoListRelations
         //     todoListImage
         // )
 
-        
+        //this.registerInclusionResolver('image', this.image.inclusionResolver);
 
+    }
+
+    public findByTitle(title: string){
+        return this.findOne({where: {title}});
     }
 
 }
