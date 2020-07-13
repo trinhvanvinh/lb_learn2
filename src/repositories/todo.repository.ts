@@ -10,7 +10,7 @@ import {
   juggler,
   repository,
 } from '@loopback/repository';
-import {Todo,  TodoRelations} from '../models';
+import {Todo, TodoList, TodoRelations} from '../models';
 import {TodoListRepository} from './todo-list.repository';
 
 export class TodoRepository extends DefaultCrudRepository<
