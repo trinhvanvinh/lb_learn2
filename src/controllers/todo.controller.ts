@@ -1,6 +1,6 @@
 import { repository, Filter } from '@loopback/repository';
 import { TodoRepository } from '../repositories/todo.repository';
-import { getModelSchemaRef, requestBody, post, get, param } from '@loopback/rest';
+import { getModelSchemaRef, requestBody, post, get, param, put } from '@loopback/rest';
 import { Todo } from '../models';
 
 export class TodoController {
@@ -54,6 +54,45 @@ export class TodoController {
     ): Promise<Todo[]>{
         return this.todoRepository.find(filter);
     }
+
+    // === == GET ID User ====
+    @get('/todos/{id}', {
+        responses:{
+            '200': {
+                description:'Todo model instance',
+                content: {
+                    'application/json': {
+                        schema: getModelSchemaRef(Todo, {includeRelations: true})
+                    }
+                }
+            }
+        }
+    }) 
+    async findTodoByID(
+        @param.path.number('id') id: number,
+        @param.filter(Todo)
+        filter?: Filter<Todo>,
+        
+    ): Promise<Todo>{
+        return this.todoRepository.findById(id, filter);
+    }
+
+    // ===== API PUT ======
+    @put('/todos/{id}',{
+        responses: {
+            '204': {
+                description: 'Todo PUT success'
+            }
+        }
+    })
+    async replaceTodo(
+        @param.path.number('id') id: number,
+        @requestBody() todo: Todo
+    ): Promise<void>{
+        await this.todoRepository.replaceById(id, todo);
+    }
+
+    
 
 
 }   
