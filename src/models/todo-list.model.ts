@@ -1,11 +1,10 @@
-import { model, Entity, property, hasMany, hasOne } from "@loopback/repository";
-import { Todo, TodoWithRelations } from './todo.model';
-// import { TodoListImage } from './todo-list-image.model';
-// import { type } from 'os';
+import {Entity, hasMany, hasOne, model, property} from "@loopback/repository";
+import {TodoListImage, TodoListImageWithRelations} from './todo-list-image.model';
+import {Todo, TodoWithRelations} from './todo.model';
 
 
 @model()
-export class TodoList extends Entity{
+export class TodoList extends Entity {
     @property({
         type: 'number',
         id: true,
@@ -24,20 +23,20 @@ export class TodoList extends Entity{
     })
     color: string;
 
-    @hasMany(()=>Todo)
+    @hasMany(() => Todo)
     todos: Todo[];
 
-    //@hasOne(()=> TodoListImage)
-    //image: TodoListImage;
+    @hasOne(() => TodoListImage)
+    image: TodoListImage;
 
-    constructor(data?: Partial<TodoList>){
+    constructor(data?: Partial<TodoList>) {
         super(data);
     }
 }
 
 export interface TodoListRelations {
     todo?: TodoWithRelations[];
-    //image?: TodoListImageWithRelations;
+    image?: TodoListImageWithRelations;
 }
 
 export type TodoListWithRelations = TodoList & TodoListRelations;
