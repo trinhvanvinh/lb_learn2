@@ -1,6 +1,6 @@
 import { TodoListRepository } from '../repositories/todo-list.repository';
-import { repository, CountSchema, Where, Count, Filter } from '@loopback/repository';
-import { post, getModelSchemaRef, requestBody, param, get, patch } from '@loopback/rest';
+import { repository, CountSchema, Where, Count, Filter, FilterExcludingWhere } from '@loopback/repository';
+import { post, getModelSchemaRef, requestBody, param, get, patch, getFilterSchemaFor, del } from '@loopback/rest';
 import { TodoList } from '../models';
 
 
@@ -95,6 +95,65 @@ export class TodoListController{
         where?: Where<TodoList>
     ): Promise<Count>{
         return this.todoListRepository.updateAll(todoList)
+    }
+
+    // === api get id ==
+    @get('/todo-lists/{id}',{
+        responses: {
+            '200': {
+                description: 'Todo list model instance',
+                content: {
+                    'application/json':{
+                        schema: getModelSchemaRef(TodoList,{includeRelations: true})
+                    }
+                }
+            }
+        }
+    })
+    async findById(
+        @param.path.number('id') id: number,
+        @param.query.object(
+            'filter',
+            getFilterSchemaFor(TodoList, {exclude:'where'})
+        )
+        filter ?: FilterExcludingWhere<TodoList>
+    ): Promise<TodoList>{
+        return this.todoListRepository.findById(id, filter);
+    }
+
+    // == path id ===
+    @patch('/todo-lists/{id}', {
+        responses: {
+            '204': {
+                description: 'Todolist Patch success'
+            }
+        }
+    })
+    async updateById(
+        @param.path.number('id') id: number,
+        @requestBody({
+            content: {
+                'application/json': {
+                    schema: getModelSchemaRef(TodoList, {partial: true})
+                }
+            }
+        })
+        todoList: Partial<TodoList> 
+    ): Promise<void>{
+        await this.todoListRepository.updateById(id, todoList);
+    }
+    // === delete id ===
+    @del('/todo-lists/{id}', {
+        responses: {
+            '204': {
+                description: 'TodoList Delete success'
+            }
+        }
+    })
+    async deleteById(
+        @param.path.number('id') id: number
+    ): Promise<void>{
+        await this.todoListRepository.deleteById(id);
     }
    
 

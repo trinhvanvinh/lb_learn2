@@ -12,7 +12,6 @@
       "6": "{\"title\":\"Nam Sachs\",\"desc\":\"Rat dep\",\"isComplete\":true,\"todoListId\":0,\"id\":6}"
     },
     "TodoList": {
-      "1": "{\"title\":\"string\",\"lastModified\":\"a long time ago\",\"id\":1,\"color\":\"string\"}",
       "2": "{\"title\":\"string\",\"lastModified\":\"2018-07-13\",\"id\":2,\"color\":\"string\"}",
       "3": "{\"title\":\"string\",\"color\":\"string\",\"id\":3}",
       "4": "{\"title\":\"string\",\"color\":\"string\",\"id\":4}",
